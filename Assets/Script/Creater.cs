@@ -5,6 +5,7 @@ public class Creater : MonoBehaviour {
 
 	public GameObject Quad;
 	public GameObject Cube;
+	public Material blankMaterial;
 
 	public static float speed = 0.12f;
 	public static float angle = 0.0f;
@@ -30,7 +31,13 @@ public class Creater : MonoBehaviour {
 	private float lastQuadZ = 0.0f;
 	private bool firstBatch = true;
 
+	double timePassed = 0.0f;
+	bool isBlinking = false;
+
 	void Start () {
+		Color c = blankMaterial.color;
+		c.a = -1.0f;
+		blankMaterial.color = c;
 		for (int i = 0; i < initBatch; i++)
 			create ();
 	}
@@ -40,14 +47,20 @@ public class Creater : MonoBehaviour {
 		if (lastQuadZ < initBatch * totalBatch)
 			create ();
 
-//		if (Input.GetKey (KeyCode.RightArrow))
-//			angle -= angleSpeed;
-//
-//		if (Input.GetKey (KeyCode.LeftArrow))
-//			angle += angleSpeed;
-
 		// use Input.GetAxis instead, to improve control accuracy.
 		angle -= angleSpeed * Input.GetAxis ("Horizontal");
+
+		trigSomethingHard ();
+	}
+
+	void trigSomethingHard(){
+		// test now, after 5 seconds, start to blink.
+		if (Time.time > 5) {
+			isBlinking = true;
+			Color c = blankMaterial.color;
+			c.a = Mathf.PingPong (Time.time, 1.0f)*2 -1 ;
+			blankMaterial.color = c;
+		}
 	}
 
 	// create a batch of quads

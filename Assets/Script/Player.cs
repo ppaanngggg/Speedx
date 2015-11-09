@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 	static public int score = 0;
 	public Text text;
+	public Mesh sightBlocker;
 
 	Slider healthSlider;
 
@@ -19,6 +20,10 @@ public class Player : MonoBehaviour {
 		healthSlider.maxValue = life;
 		healthSlider.value = life;
 		Debug.Log ("I have " + healthSlider.maxValue.ToString() + " life now");
+
+		sightBlocker.normals[0] = sightBlocker.normals[0] * -1.0f;
+		sightBlocker.normals[1] = sightBlocker.normals[1] * -1.0f;
+		sightBlocker.normals[2] = sightBlocker.normals[2] * -1.0f;
 	}
 	
 	// Update is called once per frame
