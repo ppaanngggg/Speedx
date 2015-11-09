@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Creater : MonoBehaviour {
 
 	public GameObject Quad;
 	public GameObject Cube;
-	public Material blankMaterial;
+	public Renderer visionRenderer;
 
 	public static float speed = 0.12f;
 	public static float angle = 0.0f;
@@ -33,11 +34,14 @@ public class Creater : MonoBehaviour {
 
 	double timePassed = 0.0f;
 	bool isBlinking = false;
+	float blinkSpeed = 2;
 
 	void Start () {
-		Color c = blankMaterial.color;
-		c.a = -1.0f;
-		blankMaterial.color = c;
+		// set the vision to transparent.
+		Color color = visionRenderer.material.color;
+		color.a = 0;
+		visionRenderer.material.color = color;
+
 		for (int i = 0; i < initBatch; i++)
 			create ();
 	}
@@ -53,20 +57,49 @@ public class Creater : MonoBehaviour {
 		trigSomethingHard ();
 	}
 
+
+	float blink_start_time = -1f;	//-1 mark the start of blink
 	void trigSomethingHard(){
-		// test now, after 5 seconds, start to blink.
-		if (Time.time > 5) {
+		// trigger blinking.
+		if (!isBlinking && Random.Range(0, 1000) < 0.3) {
 			isBlinking = true;
-			Color c = blankMaterial.color;
-			c.a = Mathf.PingPong (Time.time, 1.0f)*2 -1 ;
-			blankMaterial.color = c;
+
+			blink_start_time = Time.time;
 		}
+
+		if (isBlinking) {
+			blink ();
+			blinkingWarning();
+
+			if (Time.time - blink_start_time > 20) {
+				isBlinking = false;
+				blink_start_time = -1f;
+			}
+		}
+	}
+
+	public Text warningText;
+
+
+	void blinkingWarning(){
+		warningText.text = "Warning!";
+
+		/* end warning after 3s */
+		if (Time.time - blink_start_time >= 3) {
+			warningText.text = "";
+		}
+	}
+
+	void blink(){
+		Color color = visionRenderer.material.color;
+		color.a = (Mathf.Sin (Time.time * blinkSpeed) + 1)/2;
+		visionRenderer.material.color = color;
 	}
 
 	// create a batch of quads
 	void create () {
 		int hinder = Random.Range (0, roundBatch);	//the offset of a group of hinders	
-		int colorInd = Random.Range (0, colorList.Length);
+		int colorInd = Random.Range (0, colorList.Length);	// color index
 		int mod = roundBatch / Random.Range (1, hinderMod + 1);	// one hinder for every [mod] quads in a circle.
 
 		for (int i = 0; i < totalBatch; i++) {
