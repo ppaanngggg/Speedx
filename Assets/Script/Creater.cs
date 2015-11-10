@@ -86,12 +86,15 @@ public class Creater : MonoBehaviour {
 			if (Time.time - blink_start_time > 8) {
 				isBlinking = false;
 				blink_start_time = -1f;
+
+				Color color = visionRenderer.material.color;
+				color.a = 0.0f;
+				visionRenderer.material.color = color;
 			}
 		}
 
 		if (!isBlinking && !isBlind && Random.Range (0, 1000) > 998) {
 			isBlind	= true;
-
 			blind_start_time = Time.time;
 		}
 
