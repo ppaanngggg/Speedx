@@ -74,8 +74,9 @@ public class Creater : MonoBehaviour {
 		// trigger blinking.
 		if (!isBlinking && !isBlind && Random.Range(0, 1000) < 1) {
 			isBlinking = true;
-
 			blink_start_time = Time.time;
+
+			GetComponent<AudioSource>().Play();
 		}
 
 		if (isBlinking) {
@@ -96,6 +97,7 @@ public class Creater : MonoBehaviour {
 		if (!isBlinking && !isBlind && Random.Range (0, 1000) > 998) {
 			isBlind	= true;
 			blind_start_time = Time.time;
+			GetComponent<AudioSource>().Play();
 		}
 
 		if (isBlind) {

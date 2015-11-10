@@ -38,6 +38,10 @@ public class Player : MonoBehaviour {
 			life -= 1;
 			healthSlider.value -= 1;
 
+			iTween.ShakePosition(Camera.main.gameObject, new Vector3(0.1f, 0.1f, 0.1f), 1.5f);
+
+			GetComponent<AudioSource>().Play();
+
 //			Color color = crackRenderer.material.color;
 //			color.a = (4f - life)/4.0f * 0.5f;
 //			Debug.Log ("new alpha value" + color.a.ToString());
@@ -46,7 +50,5 @@ public class Player : MonoBehaviour {
 		} else {
 			Application.LoadLevel(1);
 		}
-
-		iTween.ShakePosition(Camera.main.gameObject, new Vector3(0.1f, 0.1f, 0.1f), 1.5f);
 	}
 }
