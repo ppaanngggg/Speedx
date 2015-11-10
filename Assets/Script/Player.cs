@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
 	static public int score = 0;
 	public Text text;
-	public Mesh sightBlocker;
+//	public Renderer crackRenderer;
 
 	Slider healthSlider;
 
@@ -21,9 +21,9 @@ public class Player : MonoBehaviour {
 		healthSlider.value = life;
 		Debug.Log ("I have " + healthSlider.maxValue.ToString() + " life now");
 
-		sightBlocker.normals[0] = sightBlocker.normals[0] * -1.0f;
-		sightBlocker.normals[1] = sightBlocker.normals[1] * -1.0f;
-		sightBlocker.normals[2] = sightBlocker.normals[2] * -1.0f;
+//		Color color = crackRenderer.material.color;
+//		color.a = 0.5f;
+//		crackRenderer.material.color = color;
 	}
 	
 	// Update is called once per frame
@@ -37,6 +37,11 @@ public class Player : MonoBehaviour {
 			Creater.speed -= 0.01f;
 			life -= 1;
 			healthSlider.value -= 1;
+
+//			Color color = crackRenderer.material.color;
+//			color.a = (4f - life)/4.0f * 0.5f;
+//			Debug.Log ("new alpha value" + color.a.ToString());
+//			crackRenderer.material.color = color;
 			Debug.Log("Bang! you ran into the cube, you have " + life.ToString() + " life left.");
 		} else {
 			Application.LoadLevel(1);
